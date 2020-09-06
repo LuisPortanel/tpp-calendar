@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "TPP Calendar",
+  "name": "TPP Calendar - Holiday selector",
   "icons": [
     {
       "src": "favicon.ico",
