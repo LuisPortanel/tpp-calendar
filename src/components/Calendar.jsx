@@ -7,11 +7,9 @@ import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { SAVE_HOLIDAY_RESPONSE } from '../redux/constants'
 import { type HolidaysType } from '../redux/reducers/calendarReducer'
+import HolidayTable from './HolidayTable'
 
-type StatusType = {|
-  isLoading: boolean,
-  response: {| status: string, text: string |}
-|}
+import './Calendar.scss'
 
 type CalendarType = {
   holidays: HolidaysType,
@@ -26,13 +24,7 @@ export const CalendarTable = ({
 
   const sourceRef = useRef(null)
   const [year, setYear] = useState(new Date().getFullYear())
-  const [status, setStatus] = useState<StatusType>({
-    isLoading: false,
-    response: {
-      text: '',
-      status: ''
-    }
-  })
+  const [isFetching, setIsFetching] = useState<boolean>(true)
 
   useEffect(() => {
     // We generate a CancelToken to avoid subsecuent calls to the API
@@ -40,44 +32,23 @@ export const CalendarTable = ({
     sourceRef.current = axios.CancelToken.source()
     const cancelToken = sourceRef.current.token
 
-    setStatus({
-      ...status,
-      isLoading: true
-    })
+    setIsFetching(true)
     if (countryCode) {
       axios.get(`https://calendarific.com/api/v2/holidays?api_key=439be7545f2d747562a001fdabf7cec60e7e05e3&type=national&country=${countryCode}&year=${year}`, {
         cancelToken
       }).then(res => {
-        setStatus({
-          isLoading: false,
-          response: {
-            text: 'Success',
-            status: 'success'
-          }
-        })
         saveHolidayResponse(res.data.response.holidays)
         console.log(res.data.response.holidays)
+        setIsFetching(false)
       })
         .catch(err => {
           console.warn(err)
           if (axios.isCancel(err)) {
             console.log('Request canceled', err)
           } else if (err.response) {
-            setStatus({
-              isLoading: false,
-              response: {
-                text: err.response.data.description,
-                status: 'error'
-              }
-            })
+            setIsFetching(false)
           } else {
-            setStatus({
-              isLoading: false,
-              response: {
-                text: 'Fatal error. Try again later.',
-                status: 'error'
-              }
-            })
+            setIsFetching(false)
           }
         })
     }
@@ -87,26 +58,22 @@ export const CalendarTable = ({
     }, [year, countryCode])
 
   return (
-    <div>
+    <div className="Calendar">
       <h2>Calendar</h2>
-      <p>Id: {countryCode}</p>
       <YearPicker onYearChange={year => setYear(year)}/>
       {
-        status.isLoading
-          ? <div><CircularProgress /></div>
-          : <h3>Fetching done. Here we&apos;ll show the table.</h3>
+        isFetching
+          ? <div className="fetchingProgress">
+            <CircularProgress />
+          </div>
+          : <HolidayTable />
       }
     </div>
   )
 }
 
-const mapStateToProps = ({ calendar }) => {
-  const { holidays } = calendar
-
-  return {
-    holidays
-  }
-}
+const mapStateToProps = () => ({
+})
 
 const mapDispatchToProps = dispatch => ({
   saveHolidayResponse: holidays => dispatch({
