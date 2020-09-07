@@ -1,1 +1,2 @@
 // Actions
+export const SAVE_HOLIDAY_RESPONSE = 'SAVE_HOLIDAY_RESPONSE'

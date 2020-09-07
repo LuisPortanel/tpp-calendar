@@ -1,18 +1,27 @@
+// @flow
 import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import { DatePicker } from '@material-ui/pickers'
 
-function YearPicker () {
+type YearPickerType = {
+    onYearChange(year: number): void
+}
+
+const YearPicker = ({ onYearChange }: YearPickerType) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
   const handleDatePickerChange = Moment => {
-    setSelectedYear(Moment.format('YYYY'))
+    const year = Moment.format('YYYY')
+    setSelectedYear(year)
+    onYearChange(year)
     setIsOpen(false)
   }
 
   const handleInputChange = e => {
-    setSelectedYear(e.target.value)
+    const year = e.target.value
+    setSelectedYear(year)
+    onYearChange(year)
   }
 
   const handleInputBlur = e => {
