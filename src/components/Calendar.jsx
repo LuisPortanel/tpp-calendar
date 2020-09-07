@@ -15,7 +15,23 @@ type CalendarType = {
   holidays: HolidaysType,
   saveHolidayResponse(responseHolidays: Array<HolidaysType>): void
 }
-
+const prettyName = countryCode => {
+  let country = countryCode
+  switch (countryCode) {
+    case 'us':
+      country = 'United States'
+      break
+    case 'ar':
+      country = 'Argentina'
+      break
+    case 'ca':
+      country = 'Canada'
+      break
+    default:
+      break
+  }
+  return country
+}
 export const CalendarTable = ({
   holidays,
   saveHolidayResponse
@@ -59,7 +75,7 @@ export const CalendarTable = ({
 
   return (
     <div className="Calendar">
-      <h2>Calendar</h2>
+      <h2>{prettyName(countryCode)}</h2>
       <YearPicker onYearChange={year => setYear(year)}/>
       {
         isFetching
