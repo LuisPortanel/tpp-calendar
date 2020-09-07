@@ -2,11 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
-// import { type BrowserHistory } from 'history'
-
-/* type CalendarTableType = {
-    browserHistory: BrowserHistory
-} */
+import YearPicker from './YearPicker'
 
 export const CalendarTable = () => {
   const { countryCode } = useParams()
@@ -15,6 +11,7 @@ export const CalendarTable = () => {
     <div>
       <h2>Calendar</h2>
       <p>Id: {countryCode}</p>
+      <YearPicker />
     </div>
   )
 }
