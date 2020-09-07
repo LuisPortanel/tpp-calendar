@@ -47,7 +47,7 @@ const YearPicker = ({ onYearChange }: YearPickerType) => {
         }
       }}
     />
-    <div style={{ width: 310, display: isOpen ? 'block' : 'none' }}>
+    <div style={{ position: 'absolute', width: 310, display: isOpen ? 'block' : 'none' }}>
       <DatePicker
         variant='static'
         views={['year']}

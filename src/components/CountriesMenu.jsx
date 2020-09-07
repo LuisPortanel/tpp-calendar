@@ -50,7 +50,6 @@ export const CountriesMenu = () => {
           onClick={handleMenuItemClick}
         >Argentina</MenuItem>
       </Menu>
-      <Link to="/mx">Mexico</Link>
     </div>
   )
 }

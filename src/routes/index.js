@@ -2,7 +2,7 @@
 import React from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import CalendarTable from '../components/CalendarTable'
+import CalendarTable from '../components/Calendar'
 
 const Home = () => <h2>Select a country on the nav menu</h2>
 const FourOFour = () => <h1>404</h1>

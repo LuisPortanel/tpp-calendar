@@ -14,7 +14,8 @@ export type HolidaysType = Array<{|
   date: {
     year: number,
     month: number,
-    day: number
+    day: number,
+    iso: string
   },
   description: string,
   locations: string,
