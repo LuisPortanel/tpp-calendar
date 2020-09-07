@@ -1,5 +1,5 @@
 // @flow
-import { SAVE_HOLIDAY_RESPONSE } from '../constants'
+import { SAVE_HOLIDAY_RESPONSE, REMOVE_HOLIDAY } from '../constants'
 
 const initialState = {}
 
@@ -25,7 +25,8 @@ export type HolidaysType = Array<{|
 |}>
 export type CalendarAction = {|
   +type: string,
-  holidays: HolidaysType
+  holidays: HolidaysType,
+  name: string
 |}
 
 const calendarReducer = (state: CalendarState = initialState, action: CalendarAction): CalendarReducer => {
@@ -34,6 +35,12 @@ const calendarReducer = (state: CalendarState = initialState, action: CalendarAc
       return {
         ...state,
         holidays: action.holidays
+      }
+
+    case REMOVE_HOLIDAY:
+      return {
+        ...state,
+        holidays: state.holidays.filter(holiday => holiday.name !== action.name)
       }
 
     default:

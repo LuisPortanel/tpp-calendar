@@ -15,14 +15,15 @@ import FirstPageIcon from '@material-ui/icons/FirstPage'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import LastPageIcon from '@material-ui/icons/LastPage'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
+import RemoveHoliday from './RemoveHoliday'
 
 import './HolidayTable.scss'
 
 import { type HolidaysType } from '../redux/reducers/calendarReducer'
 
 type HolidayTableType = {
-    holidays: HolidaysType
+    holidays: HolidaysType,
+    removeHoliday(name: string): void
 }
 
 const TablePaginationActions = ({ count, page, rowsPerPage, onChangePage }: {count: number, page: number, rowsPerPage: number, onChangePage: any}) => {
@@ -60,7 +61,7 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onChangePage }: {cou
   )
 }
 
-const HolidayTable = ({ holidays }: HolidayTableType) => {
+const HolidayTable = ({ holidays, removeHoliday }: HolidayTableType) => {
   const [page, setPage] = useState(0)
   const rowsPerPage = 5
 
@@ -85,7 +86,7 @@ const HolidayTable = ({ holidays }: HolidayTableType) => {
           {holidays
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(holiday => (
               <TableRow key={holiday.name}>
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" title={holiday.name}>
                   <p className='truncate'>
                     {holiday.name}
                   </p>
@@ -97,7 +98,7 @@ const HolidayTable = ({ holidays }: HolidayTableType) => {
                   {holiday.date.iso}
                 </TableCell>
                 <TableCell align="right">
-                  <HighlightOffIcon />
+                  <RemoveHoliday holidayName={holiday.name} />
                 </TableCell>
               </TableRow>
             ))}
@@ -135,7 +136,4 @@ const mapStateToProps = ({ calendar }) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect<any, any, any, any, any, any>(mapStateToProps, mapDispatchToProps)(HolidayTable)
+export default connect<any, any, any, any, any, any>(mapStateToProps)(HolidayTable)
