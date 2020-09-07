@@ -7,6 +7,9 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import ReduxThunk from 'redux-thunk'
 import rootReducer from './redux/reducers'
+import { createBrowserHistory } from 'history'
+
+const browserHistory = createBrowserHistory()
 
 const store = createStore(
   rootReducer,
@@ -17,7 +20,7 @@ const root = document.getElementById('root')
 
 if (root !== null) {
   ReactDOM.render(
-    <App store={store} />,
+    <App store={store} browserHistory={browserHistory} />,
     root
   )
 }
