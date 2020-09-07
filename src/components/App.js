@@ -1,27 +1,25 @@
 // @flow
 import React from 'react'
-import logo from '../assets/logo.svg'
-import './App.css'
+import { Provider } from 'react-redux'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import CountriesMenu from './CountriesMenu'
+import { type Store as ReduxStore } from 'redux'
+import { type State, type Action } from '../redux/reducers'
+import './App.scss'
 
-function App () {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
+type AppType = {
+  store?: ReduxStore<State, Action>
 }
+
+const App = ({ store }: AppType) => <Provider store={store}>
+  <div className='App'>
+    <AppBar position="static">
+      <Toolbar>
+        <CountriesMenu />
+      </Toolbar>
+    </AppBar>
+  </div>
+</Provider>
 
 export default App

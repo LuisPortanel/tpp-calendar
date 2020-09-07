@@ -1,5 +1,4 @@
-// @flow
-import React, { StrictMode } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './components/App'
@@ -11,7 +10,6 @@ import rootReducer from './redux/reducers'
 
 const store = createStore(
   rootReducer,
-  {},
   composeWithDevTools(applyMiddleware(ReduxThunk))
 )
 
@@ -19,9 +17,7 @@ const root = document.getElementById('root')
 
 if (root !== null) {
   ReactDOM.render(
-    <StrictMode>
-      <App store={store} />
-    </StrictMode>,
+    <App store={store} />,
     root
   )
 }

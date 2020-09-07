@@ -1,9 +1,9 @@
 // @flow
 import { combineReducers } from 'redux'
-import configReducer, { type CalendarAction } from './calendarReducer'
+import calendarReducer, { type CalendarAction } from './calendarReducer'
 
 const reducers = {
-  config: configReducer
+  calendar: calendarReducer
 }
 
 export type State = typeof reducers
