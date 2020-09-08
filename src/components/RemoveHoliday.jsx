@@ -13,11 +13,12 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import { REMOVE_HOLIDAY } from '../redux/constants'
 
 type RemoveHolidayType = {
+    holidayDate: string,
     holidayName: string,
-    removeHoliday(holidayName: string): void
+    removeHoliday(holidayDate: string, holidayName: string): void
 }
 
-const RemoveHoliday = ({ holidayName, removeHoliday }: RemoveHolidayType) => {
+const RemoveHoliday = ({ holidayDate, holidayName, removeHoliday }: RemoveHolidayType) => {
   const [dialogopen, setDialogOpen] = React.useState(false)
 
   const handleOpen = () => {
@@ -27,7 +28,7 @@ const RemoveHoliday = ({ holidayName, removeHoliday }: RemoveHolidayType) => {
     setDialogOpen(false)
   }
   const handleRemoveHoliday = () => {
-    removeHoliday(holidayName)
+    removeHoliday(holidayDate, holidayName)
     setDialogOpen(false)
   }
 
@@ -60,8 +61,9 @@ const RemoveHoliday = ({ holidayName, removeHoliday }: RemoveHolidayType) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  removeHoliday: name => dispatch({
+  removeHoliday: (date, name) => dispatch({
     type: REMOVE_HOLIDAY,
+    date,
     name
   })
 })

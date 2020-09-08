@@ -50,11 +50,17 @@ export const CalendarTable = ({
 
     setIsFetching(true)
     if (countryCode) {
-      axios.get(`https://calendarific.com/api/v2/holidays?api_key=439be7545f2d747562a001fdabf7cec60e7e05e3&type=national&country=${countryCode}&year=${year}`, {
+      /*   The API is misconfigured. It doesn't include Access-Control-Allow-Origin headers.
+        *  Due to this, it doesn't allow requests made by external domains.
+        *  This can be bypassed with a CORS browser plugin, but in this case
+        *  I used a proxy to avoid this problem:
+        *  PROXY: https://cors-anywhere.herokuapp.com
+        * */
+      axios.get(`https://cors-anywhere.herokuapp.com/https://date.nager.at/api/v2/PublicHolidays/${year}/${countryCode}`, {
         cancelToken
       }).then(res => {
-        saveHolidayResponse(res.data.response.holidays)
-        console.log(res.data.response.holidays)
+        console.log('API response', res.data)
+        saveHolidayResponse(res.data)
         setIsFetching(false)
       })
         .catch(err => {

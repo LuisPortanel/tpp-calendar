@@ -16,6 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import LastPageIcon from '@material-ui/icons/LastPage'
 import RemoveHoliday from './RemoveHoliday'
+import moment from 'moment'
 
 import './HolidayTable.scss'
 
@@ -65,6 +66,11 @@ const HolidayTable = ({ holidays, removeHoliday }: HolidayTableType) => {
   const [page, setPage] = useState(0)
   const rowsPerPage = 5
 
+  // If the page is empty after deleting, move backwards one page
+  if (page >= Math.ceil(holidays.length / rowsPerPage) && holidays.length > 0) {
+    setPage(page - 1)
+  }
+
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, holidays.length - page * rowsPerPage)
 
   const handleChangePage = (event, newPage) => {
@@ -76,29 +82,29 @@ const HolidayTable = ({ holidays, removeHoliday }: HolidayTableType) => {
       <Table style={{ minWidth: 500 }}>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell className='truncate'>Name</TableCell>
+            <TableCell>Launch Year</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {holidays
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(holiday => (
-              <TableRow key={holiday.name}>
-                <TableCell component="th" scope="row" title={holiday.name}>
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((holiday, idx) => (
+              <TableRow key={idx}>
+                <TableCell component="th" scope="row" title={holiday.name} align="left">
                   <p className='truncate'>
                     {holiday.name}
                   </p>
                 </TableCell>
-                <TableCell style={{ maxWidth: 200 }} align="right">
-                  {holiday.description}
+                <TableCell>
+                  {holiday.launchYear ? moment(`${holiday.launchYear}`, 'YYYY', true).format('MM/DD/YYYY') : '-'}
                 </TableCell>
-                <TableCell align="right">
-                  {holiday.date.iso}
+                <TableCell>
+                  {`${holiday.date} ${moment(holiday.date, 'YYYY-MM-DD').fromNow()}`}
                 </TableCell>
-                <TableCell align="right">
-                  <RemoveHoliday holidayName={holiday.name} />
+                <TableCell>
+                  <RemoveHoliday holidayDate={holiday.date} holidayName={holiday.name} />
                 </TableCell>
               </TableRow>
             ))}
@@ -129,7 +135,6 @@ const HolidayTable = ({ holidays, removeHoliday }: HolidayTableType) => {
 
 const mapStateToProps = ({ calendar }) => {
   const { holidays } = calendar
-  console.log('mapState', calendar, holidays)
 
   return {
     holidays

@@ -7,25 +7,20 @@ type CalendarReducer = typeof initialState
 type CalendarState = CalendarReducer
 
 export type HolidaysType = Array<{|
-  country: {
-    id: string,
-    name: string
-  },
-  date: {
-    year: number,
-    month: number,
-    day: number,
-    iso: string
-  },
-  description: string,
-  locations: string,
+  counties: Array<string> | null,
+  countryCode: string,
+  date: string,
+  fixed: boolean,
+  global: boolean,
+  launchYear: number | null,
+  localName: string,
   name: string,
-  states: string,
-  type: Array<string>
+  type: string
 |}>
 export type CalendarAction = {|
   +type: string,
   holidays: HolidaysType,
+  date: string,
   name: string
 |}
 
@@ -40,7 +35,7 @@ const calendarReducer = (state: CalendarState = initialState, action: CalendarAc
     case REMOVE_HOLIDAY:
       return {
         ...state,
-        holidays: state.holidays.filter(holiday => holiday.name !== action.name)
+        holidays: state.holidays.filter(holiday => holiday.date !== action.date || holiday.name !== action.name)
       }
 
     default:
