@@ -15,7 +15,6 @@ export const CountriesMenu = () => {
   }
 
   const handleMenuItemClick = e => {
-    console.log('Menu Item clicked', e.target)
     closeMenu()
   }
 
@@ -33,6 +32,10 @@ export const CountriesMenu = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={closeMenu}
+        // This must be null to get the vertical properties to work
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <MenuItem
           component={Link}
