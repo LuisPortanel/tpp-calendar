@@ -22,12 +22,19 @@ import './HolidayTable.scss'
 
 import { type HolidaysType } from '../redux/reducers/calendarReducer'
 
-type HolidayTableType = {
+type HolidayTableType = {|
     holidays: HolidaysType,
     removeHoliday(name: string): void
-}
+|}
 
-const TablePaginationActions = ({ count, page, rowsPerPage, onChangePage }: {count: number, page: number, rowsPerPage: number, onChangePage: any}) => {
+type TablePaginationActionsType = {|
+  count: number,
+  page: number,
+  rowsPerPage: number,
+  onChangePage(event: SyntheticEvent<HTMLButtonElement>, page: number): void
+|}
+
+const TablePaginationActions = ({ count, page, rowsPerPage, onChangePage }: TablePaginationActionsType) => {
   const handleFirstPageButtonClick = e => {
     onChangePage(e, 0)
   }

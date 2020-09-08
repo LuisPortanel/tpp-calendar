@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import { DatePicker } from '@material-ui/pickers'
 
+import './YearPicker.scss'
+
 type YearPickerType = {
     onYearChange(year: number): void
 }
@@ -31,7 +33,7 @@ const YearPicker = ({ onYearChange }: YearPickerType) => {
     }, 200)
   }
 
-  return (<>
+  return (<div className='YearPicker'>
     <TextField
       id="standard-number"
       label="Year"
@@ -47,7 +49,7 @@ const YearPicker = ({ onYearChange }: YearPickerType) => {
         }
       }}
     />
-    <div style={{ position: 'absolute', width: 310, display: isOpen ? 'block' : 'none' }}>
+    <div className='datepicker-container' style={{ display: isOpen ? 'block' : 'none' }}>
       <DatePicker
         variant='static'
         views={['year']}
@@ -56,7 +58,7 @@ const YearPicker = ({ onYearChange }: YearPickerType) => {
         animateYearScrolling={true}
       />
     </div>
-  </>)
+  </div>)
 }
 
 export default YearPicker
