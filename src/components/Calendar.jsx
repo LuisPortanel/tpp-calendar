@@ -23,7 +23,6 @@ export const CalendarTable = ({
   saveHolidayResponse
 }: CalendarType) => {
   const { countryCode } = useParams()
-
   const sourceRef = useRef(null)
   const [year, setYear] = useState(new Date().getFullYear())
   const [isFetching, setIsFetching] = useState<boolean>(true)
@@ -45,17 +44,17 @@ export const CalendarTable = ({
       axios.get(`https://cors-anywhere.herokuapp.com/https://date.nager.at/api/v2/PublicHolidays/${year}/${countryCode}`, {
         cancelToken
       }).then(res => {
-        console.log('API response', res.data)
         saveHolidayResponse(res.data)
         setIsFetching(false)
       })
         .catch(err => {
-          console.warn(err)
           if (axios.isCancel(err)) {
-            console.log('Request canceled', err)
+            console.warn('Request canceled', err)
           } else if (err.response) {
+            console.warn(err.response)
             setIsFetching(false)
           } else {
+            console.warn(err)
             setIsFetching(false)
           }
         })
@@ -80,9 +79,6 @@ export const CalendarTable = ({
   )
 }
 
-const mapStateToProps = () => ({
-})
-
 const mapDispatchToProps = dispatch => ({
   saveHolidayResponse: holidays => dispatch({
     type: SAVE_HOLIDAY_RESPONSE,
@@ -90,4 +86,4 @@ const mapDispatchToProps = dispatch => ({
   })
 })
 
-export default connect<any, any, any, any, any, any>(mapStateToProps, mapDispatchToProps)(CalendarTable)
+export default connect<any, any, any, any, any, any>(null, mapDispatchToProps)(CalendarTable)

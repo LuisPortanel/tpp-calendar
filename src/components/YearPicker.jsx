@@ -23,7 +23,11 @@ const YearPicker = ({ onYearChange }: YearPickerType) => {
   const handleInputChange = e => {
     const year = e.target.value
     setSelectedYear(year)
-    onYearChange(year)
+
+    // Only trigger API fetch until the year is valid
+    if (year >= 1899 && year <= 2100) {
+      onYearChange(year)
+    }
   }
 
   const handleInputBlur = e => {

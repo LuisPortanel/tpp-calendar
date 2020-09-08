@@ -10,14 +10,14 @@ const FourOFour = () => <h1>404</h1>
 
 const Routes = () => {
   const location = useLocation()
-  console.log(location)
+
   return (<>
     <Helmet>
       <title>TPP Calendar{ location.pathname ? ` - ${countryNameByCode(location.pathname.substring(1))}` : '' }</title>
     </Helmet>
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/:countryCode" component={Calendar} />
+      <Route path="/:countryCode(us|ca|ar)" component={Calendar} />
       <Route component={FourOFour} />
     </Switch>
 
